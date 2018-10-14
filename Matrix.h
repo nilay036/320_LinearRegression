@@ -23,6 +23,7 @@ class Matrix
 
 		T*& operator [] (const int&) const;
 		Matrix& operator = (const Matrix&);
+		bool operator == (const Matrix&) const;
 
 		Matrix& operator *= (const Matrix&);
 		Matrix& operator += (const Matrix&);
@@ -30,14 +31,18 @@ class Matrix
 		
 		const Matrix operator * (const Matrix&) const;
 		const Matrix operator + (const Matrix&) const;
-		const Matrix operator - (const Matrix&)const; 
-		
+		const Matrix operator - (const Matrix&) const; 
+
+		//scalar ops
+		Matrix& operator *= (const T&);
+		const Matrix operator * (const T&) const;
 		template <class D>
 		friend 	ostream& operator <<(ostream&, Matrix<D>&);
 		
 		const Matrix& pad();
 		const Matrix* transpose();
-		
+		Matrix& inverse();
+
 		void fillMatrix(string, T);
 		string printMatrix() const;
 

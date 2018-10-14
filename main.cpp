@@ -1,5 +1,6 @@
 #include "Matrix.h"
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <chrono>
 using namespace std;
@@ -80,22 +81,20 @@ int main1()
 
 	return 0;
 }
-
-int main()
+double** readFile(char**
+int main(int argc, char** argv)
 {
-	Matrix<int> x = Matrix<int>(3, 3);
-	Matrix<int> y = Matrix<int>(3, 3);
-	x.fillMatrix("upper-triangle", 1);
-	y.fillMatrix("lower-triangle", 1);
+	cout << argv[1];
+	Matrix<double> x = Matrix<double>(3, 3);
+	x.fillMatrix("diagonal", 1);
 	cout << x << endl;
-	Matrix<int> z;// = Matrix<int>(3, 3);
-	cout << z << endl;
-	try{
-		z.pad();
-		cout << z;
-	}catch(string e)
-	{
-		cout << e << endl;
-	}
 	
+	Matrix<double> y(x);
+	
+	x.inverse();
+	cout << x << endl;
+	
+	Matrix<double> z = x * y;
+	
+	cout << z << endl;
 }
