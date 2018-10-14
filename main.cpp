@@ -1,6 +1,7 @@
 #include "Matrix.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <chrono>
 using namespace std;
@@ -81,20 +82,48 @@ int main1()
 
 	return 0;
 }
-double** readFile(char**
+Matrix<double> readFile(char* fileName)
+{
+	string line;
+	int numLines = 0;
+	Matrix<double> pointsMatrix;
+	ifstream pointsFile (fileName);
+	if(pointsFile.is_open()){
+		while(getline(pointsFile, line))
+			numLines++;
+		pointsFile.clear();
+		pointsFile.seekg(0, ios::beg);
+		cout << numLines;
+		pointsMatrix = Matrix<double>(numLines, 2);
+		bool isX = true;
+		double temp = 0;
+		int i = 0;
+		while(pointsFile >> temp && i < numLines)
+		{
+			if(isX)
+			{
+				pointsMatrix[i][0] = temp;
+				isX = false;
+			}
+			else
+			{
+				pointsMatrix[i][1] = temp;
+				isX = true;
+			}
+			i++;
+		}
+	pointsFile.close();
+	}
+	return pointsMatrix;
+			
+}
 int main(int argc, char** argv)
 {
-	cout << argv[1];
-	Matrix<double> x = Matrix<double>(3, 3);
-	x.fillMatrix("diagonal", 1);
-	cout << x << endl;
-	
-	Matrix<double> y(x);
-	
-	x.inverse();
-	cout << x << endl;
-	
-	Matrix<double> z = x * y;
-	
-	cout << z << endl;
+	if(argc != 2)
+	{
+		cout << "this program only takes 1 parameter";
+		return 0;
+	}
+	Matrix<double> pointsMatrix = readFile(argv[1]);
+	cout << pointsMatrix;
 }
